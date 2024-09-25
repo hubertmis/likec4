@@ -1,4 +1,4 @@
-import { type ComputedElementView, type ElementView } from '@likec4/core'
+import type { ComputedElementView, ElementView } from '@likec4/core'
 import type { LikeC4ModelGraph } from '../LikeC4ModelGraph'
 import { ComputeCtx } from './compute'
 

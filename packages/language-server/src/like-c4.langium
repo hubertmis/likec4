@@ -40,7 +40,8 @@ SpecificationRule:
       elements+=SpecificationElementKind |
       tags+=SpecificationTag |
       relationships+=SpecificationRelationshipKind |
-      colors+=SpecificationColor
+      colors+=SpecificationColor |
+      rules+=GenericViewRule
     )*
   '}';
 
@@ -261,6 +262,11 @@ ViewStringProperty:
 
 ViewLayoutDirection returns string:
   'TopBottom' | 'LeftRight' | 'BottomTop' | 'RightLeft';
+
+GenericViewRule:
+  ViewRule |
+  DynamicViewRule
+;
 
 ViewRule:
   ViewRulePredicate |
