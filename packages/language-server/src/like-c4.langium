@@ -40,7 +40,8 @@ SpecificationRule:
       elements+=SpecificationElementKind |
       tags+=SpecificationTag |
       relationships+=SpecificationRelationshipKind |
-      colors+=SpecificationColor
+      colors+=SpecificationColor |
+      rules+=ViewRule
     )*
   '}';
 

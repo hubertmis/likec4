@@ -18,6 +18,7 @@ You can change colors, shapes, and icons of elements and relationships.
 
 There are multiple ways to style elements:
 - Style all elements of a kind in `specification`
+- Style all elements matching an expression (tags, fully qualified names, wildcards) in `specification`
 - Specific for an element in `model`
 - Override styles in `view` (more on this in [next section](/dsl/views/#style-predicates))
 
@@ -35,7 +36,7 @@ specification {
     }
   }
 
-  element frontend {    
+  element frontend {
     style {
       // every 'frontend' displayed as browser
       shape: browser // ':' is optional, but if you prefer
@@ -43,6 +44,35 @@ specification {
   }
 }
 ```
+
+#### Elements matching an expression
+
+To style all elements matching an expression, use the `style` block in `specification`:
+
+```likec4 copy
+specification {
+  element component
+
+  tag deprecated
+
+  style element.tag = #deprecated {
+    // every element with tag 'deprecated'
+    color muted
+  }
+
+  style element.tag != #deprecated {
+    // every element without tag 'deprecated'
+    opacity 20%
+  }
+
+  style * {
+    // all elements
+    color gray
+    opacity 10%
+  }
+}
+```
+
 
 #### Single element
 

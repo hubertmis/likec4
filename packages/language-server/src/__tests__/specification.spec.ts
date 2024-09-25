@@ -358,5 +358,45 @@ describe.concurrent('specification', () => {
       specification {
         relationship it
       }`
+
+    test('spec with global style').valid`
+      specification {
+        style * {
+          color secondary
+        }
+      }`
+
+    test('spec with global style for tag').valid`
+      specification {
+        tag deprecated
+        style element.tag = #deprecated {
+          color muted
+        }
+      }`
+
+    test('spec with global style for element').valid`
+      specification {
+        element container
+        style system {
+          shape browser
+        }
+      }
+      model {
+        container system
+      }`
+
+    test('fail spec with global style for missing tag').invalid`
+      specification {
+        style element.tag = #deprecated {
+          color muted
+        }
+      }`
+
+    test('fail spec with global style for missing element').invalid`
+      specification {
+        style element_id {
+          shape rectangle
+        }
+      }`
   })
 })

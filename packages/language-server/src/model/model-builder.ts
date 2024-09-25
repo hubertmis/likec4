@@ -1,4 +1,4 @@
-import type * as c4 from '@likec4/core'
+import * as c4 from '@likec4/core'
 import {
   compareRelations,
   computeColorValues,
@@ -53,13 +53,15 @@ function buildModel(services: LikeC4Services, docs: ParsedLikeC4LangiumDocument[
     tags: new Set(),
     elements: {},
     relationships: {},
-    colors: {}
+    colors: {},
+    rules: []
   }
   forEach(map(docs, prop('c4Specification')), spec => {
     spec.tags.forEach(t => c4Specification.tags.add(t))
     Object.assign(c4Specification.elements, spec.elements)
     Object.assign(c4Specification.relationships, spec.relationships)
     Object.assign(c4Specification.colors, spec.colors)
+    Object.assign(c4Specification.rules, spec.rules)
   })
   function resolveLinks(doc: LangiumDocument, links: c4.NonEmptyArray<ParsedLink>) {
     return map(
@@ -279,11 +281,18 @@ function buildModel(services: LikeC4Services, docs: ParsedLikeC4LangiumDocument[
     resolveRulesExtendedViews
   )
 
+  function toC4GlobalRule(doc: LangiumDocument) {
+    return (parsedAstView: c4.ViewRule): c4.ViewRule => {
+      return parsedAstView
+    }
+  }
+
   return {
     specification: {
       tags: Array.from(c4Specification.tags),
       elements: c4Specification.elements,
-      relationships: c4Specification.relationships
+      relationships: c4Specification.relationships,
+      rules: c4Specification.rules
     },
     elements,
     relations,
@@ -377,7 +386,8 @@ export class LikeC4ModelBuilder {
 
       const allViews = [] as c4.ComputedView[]
       for (const view of values(model.views)) {
-        const result = isElementView(view) ? computeView(view, index) : computeDynamicView(view, index)
+        const global_rules = model?.specification?.rules
+        const result = isElementView(view) ? computeView(view, index, global_rules) : computeDynamicView(view, index)
         if (!result.isSuccess) {
           logWarnError(result.error)
           continue
@@ -441,7 +451,8 @@ export class LikeC4ModelBuilder {
           return null
         }
         const index = new LikeC4ModelGraph(model)
-        const result = isElementView(view) ? computeView(view, index) : computeDynamicView(view, index)
+        const global_rules = model?.specification.rules
+        const result = isElementView(view) ? computeView(view, index, global_rules) : computeDynamicView(view, index)
         if (!result.isSuccess) {
           logError(result.error)
           return null

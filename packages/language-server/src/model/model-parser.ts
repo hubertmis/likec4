@@ -163,6 +163,11 @@ export class LikeC4ModelParser {
         logWarnError(e)
       }
     }
+
+    const rules_specs = specifications.flatMap(s => s.rules.filter(isValid))
+    for (const rule of rules_specs) {
+      c4Specification.rules.push(this.parseViewRule(rule, isValid))
+    }
   }
 
   private parseModel(doc: ParsedLikeC4LangiumDocument, isValid: IsValidFn) {

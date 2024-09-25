@@ -47,12 +47,12 @@ describe('LikeC4CompletionProvider', () => {
     await completion({
       text,
       index: 2,
-      expectedItems: ['element', 'tag', 'relationship', 'color']
+      expectedItems: ['element', 'tag', 'relationship', 'color', 'include', 'exclude', 'style', 'autoLayout']
     })
     await completion({
       text,
       index: 3,
-      expectedItems: ['element']
+      expectedItems: ['element', 'exclude']
     })
     await completion({
       text,

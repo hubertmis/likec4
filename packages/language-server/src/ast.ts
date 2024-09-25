@@ -59,6 +59,7 @@ export interface ParsedAstSpecification {
       color: c4.HexColorLiteral
     }
   >
+  rules: c4.ViewRule[]
 }
 
 export interface ParsedAstElement {
@@ -186,7 +187,8 @@ export function cleanParsedModel(doc: LikeC4LangiumDocument) {
       tags: new Set(),
       elements: {},
       relationships: {},
-      colors: {}
+      colors: {},
+      rules: []
     },
     c4Elements: [],
     c4Relations: [],
