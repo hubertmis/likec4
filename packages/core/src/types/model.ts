@@ -11,7 +11,6 @@ export interface ParsedLikeC4Model {
     tags: Tag[]
     elements: Record<UnwrapTagged<ElementKind>, ElementKindSpecification>
     relationships: Record<UnwrapTagged<ElementKind>, RelationshipKindSpecification>
-    rules: ViewRule[]
   }
   elements: Record<Fqn, Element>
   relations: Record<RelationID, Relation>

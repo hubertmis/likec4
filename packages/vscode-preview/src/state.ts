@@ -89,7 +89,6 @@ export const $likeC4Diagrams = map<LikeC4DiagramsAtom>(
 const EMPTY: ComputedLikeC4Model = {
   specification: {
     tags: [],
-    rules: [],
     elements: {},
     relationships: {}
   },

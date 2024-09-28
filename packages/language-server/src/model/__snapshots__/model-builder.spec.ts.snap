@@ -79,7 +79,6 @@ exports[`LikeC4ModelBuilder > builds model with description and technology 1`] =
       },
     },
     "relationships": {},
-    "rules": [],
     "tags": [],
   },
   "views": {
@@ -231,7 +230,6 @@ exports[`LikeC4ModelBuilder > builds model with extend 1`] = `
       },
     },
     "relationships": {},
-    "rules": [],
     "tags": [
       "deprecated",
     ],
@@ -534,7 +532,6 @@ exports[`LikeC4ModelBuilder > builds model with relationship spec and tag 1`] = 
     "relationships": {
       "async": {},
     },
-    "rules": [],
     "tags": [
       "next",
     ],
@@ -657,7 +654,6 @@ exports[`LikeC4ModelBuilder > builds model with relationship spec with technolog
         "technology": "Async",
       },
     },
-    "rules": [],
     "tags": [],
   },
   "views": {
@@ -774,7 +770,6 @@ exports[`LikeC4ModelBuilder > builds model with styled relationship 1`] = `
       },
     },
     "relationships": {},
-    "rules": [],
     "tags": [],
   },
   "views": {

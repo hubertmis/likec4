@@ -311,7 +311,6 @@ export const fakeRelations = mapToObj(fakeRelationsArr, r => [r.id as FakeRelati
 export const fakeComputedModel = {
   specification: {
     tags: [],
-    rules: [],
     relationships: {},
     elements: {
       actor: {

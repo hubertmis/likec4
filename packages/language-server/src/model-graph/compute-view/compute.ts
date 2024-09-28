@@ -93,14 +93,13 @@ export class ComputeCtx {
   private implicits = new Set<Element>()
   private ctxEdges = [] as ComputeCtx.Edge[]
 
-  public static elementView(view: ElementView, graph: LikeC4ModelGraph, global_rules: ViewRule[] = []) {
-    return new ComputeCtx(view, graph, global_rules).compute()
+  public static elementView(view: ElementView, graph: LikeC4ModelGraph) {
+    return new ComputeCtx(view, graph).compute()
   }
 
   private constructor(
     protected view: ElementView,
     protected graph: LikeC4ModelGraph,
-    protected global_rules: ViewRule[],
   ) {}
 
   protected compute(): ComputedElementView {
@@ -159,14 +158,11 @@ export class ComputeCtx {
       rules,
       applyViewRuleStyles(
         rules,
-        applyViewRuleStyles(
-          this.global_rules,
-          // Build graph and apply postorder sort
-          sortNodes({
-            nodes: initialSort,
-            edges
-          })
-        )
+        // Build graph and apply postorder sort
+        sortNodes({
+          nodes: initialSort,
+          edges
+        })
       )
     )
     const sortedEdges = new Set([

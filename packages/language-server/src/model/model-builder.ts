@@ -291,8 +291,7 @@ function buildModel(services: LikeC4Services, docs: ParsedLikeC4LangiumDocument[
     specification: {
       tags: Array.from(c4Specification.tags),
       elements: c4Specification.elements,
-      relationships: c4Specification.relationships,
-      rules: c4Specification.rules
+      relationships: c4Specification.relationships
     },
     elements,
     relations,
@@ -386,8 +385,7 @@ export class LikeC4ModelBuilder {
 
       const allViews = [] as c4.ComputedView[]
       for (const view of values(model.views)) {
-        const global_rules = model?.specification?.rules
-        const result = isElementView(view) ? computeView(view, index, global_rules) : computeDynamicView(view, index)
+        const result = isElementView(view) ? computeView(view, index) : computeDynamicView(view, index)
         if (!result.isSuccess) {
           logWarnError(result.error)
           continue
@@ -451,8 +449,7 @@ export class LikeC4ModelBuilder {
           return null
         }
         const index = new LikeC4ModelGraph(model)
-        const global_rules = model?.specification.rules
-        const result = isElementView(view) ? computeView(view, index, global_rules) : computeDynamicView(view, index)
+        const result = isElementView(view) ? computeView(view, index) : computeDynamicView(view, index)
         if (!result.isSuccess) {
           logError(result.error)
           return null

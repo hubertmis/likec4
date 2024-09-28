@@ -2,8 +2,8 @@ import type { ComputedElementView, ElementView, ViewRule } from '@likec4/core'
 import type { LikeC4ModelGraph } from '../LikeC4ModelGraph'
 import { ComputeCtx } from './compute'
 
-export function computeElementView(view: ElementView, graph: LikeC4ModelGraph, global_rules?: ViewRule[]) {
-  return ComputeCtx.elementView(view, graph, global_rules)
+export function computeElementView(view: ElementView, graph: LikeC4ModelGraph) {
+  return ComputeCtx.elementView(view, graph)
 }
 
 type ComputeViewResult =
@@ -17,11 +17,11 @@ type ComputeViewResult =
     view: undefined
   }
 
-export function computeView(view: ElementView, graph: LikeC4ModelGraph, global_rules?: ViewRule[]): ComputeViewResult {
+export function computeView(view: ElementView, graph: LikeC4ModelGraph): ComputeViewResult {
   try {
     return {
       isSuccess: true,
-      view: computeElementView(view, graph, global_rules)
+      view: computeElementView(view, graph)
     }
   } catch (e) {
     return {
