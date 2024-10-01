@@ -329,5 +329,8 @@ export const fakeComputedModel = {
   },
   elements: fakeElements,
   relations: fakeRelations,
+  globalRules: {
+    styles: {},
+  },
   views: {}
 } satisfies ComputedLikeC4Model

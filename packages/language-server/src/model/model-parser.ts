@@ -83,6 +83,7 @@ export class LikeC4ModelParser {
     const { isValid } = checksFromDiagnostics(doc)
     this.parseSpecification(doc, isValid)
     this.parseModel(doc, isValid)
+    this.parseGlobal(doc, isValid)
     this.parseViews(doc, isValid)
     return doc
   }
@@ -283,6 +284,37 @@ export class LikeC4ModelParser {
       ...toRelationshipStyleExcludeDefaults(styleProp?.props),
       ...(navigateTo && { navigateTo: navigateTo as c4.ViewID })
     }
+  }
+
+  private parseGlobal(doc: ParsedLikeC4LangiumDocument, isValid: IsValidFn) {
+    const { parseResult, c4Global } = doc
+
+    const globalRules = parseResult.value.global_rules.filter(isValid)
+    const styles = globalRules.flatMap(s => s.styles.filter(isValid))
+    for (const style of styles) {
+      try {
+        const globalStyleId = style.name as c4.GlobalStyleID
+        if (!isTruthy(globalStyleId)) {
+          continue
+        }
+        if (globalStyleId in c4Global.styles) {
+          logger.warn(`Global style named "${globalStyleId}" is already defined`)
+          continue
+        }
+        c4Global.styles[globalStyleId] = [
+          this.parseGlobalStyle(style, isValid)
+        ]
+      } catch (e) {
+        logWarnError(e)
+      }
+    }
+  }
+
+  private parseGlobalStyle(astRule: ast.GlobalStyle, isValid: IsValidFn): c4.ViewRuleStyle {
+    const styleProps = astRule.props.filter(ast.isStyleProperty)
+    const targets = astRule.target
+    const notation = astRule.props.find(ast.isNotationProperty)
+    return this.parseRuleStyle(styleProps, targets, isValid, notation)
   }
 
   private parseViews(doc: ParsedLikeC4LangiumDocument, isValid: IsValidFn) {
@@ -610,6 +642,9 @@ export class LikeC4ModelParser {
     if (ast.isViewRuleAutoLayout(astRule)) {
       return toAutoLayout(astRule)
     }
+    if (ast.isViewRuleGlobalStyle(astRule)) {
+      return this.parseViewRuleGlobalStyle(astRule, isValid)
+    }
     nonexhaustive(astRule)
   }
 
@@ -630,6 +665,12 @@ export class LikeC4ModelParser {
       style: {
         ...styleProps
       }
+    }
+  }
+
+  private parseViewRuleGlobalStyle(astRule: ast.ViewRuleGlobalStyle, isValid: IsValidFn): c4.ViewRuleGlobalStyle {
+    return {
+      styleId: astRule.style.$refText as c4.GlobalStyleID,
     }
   }
 
@@ -862,6 +903,9 @@ export class LikeC4ModelParser {
     }
     if (ast.isViewRuleAutoLayout(astRule)) {
       return toAutoLayout(astRule)
+    }
+    if (ast.isViewRuleGlobalStyle(astRule)) {
+      return this.parseViewRuleGlobalStyle(astRule, isValid)
     }
     nonexhaustive(astRule)
   }
